@@ -35,13 +35,15 @@ asyncBuzzer::asyncBuzzer(int pin) {
 	_buzzerPin   = pin;
 	_buzzerState = BUZZER_IDLE;
 
+	_beepFrequency = 0;
 	_delayTime = 0;
 	_beepTime  = 0;
+	_beepReps = 0;
 
 	_startTime = 0;
 
 	_melody = 0;
-	_noteDurations = 0;
+	_wholeNote = 0;
 	_melodyLength  = 0;
 	_melodyIndex   = 0;
 	_notePauseTime = 0;
@@ -130,7 +132,7 @@ void asyncBuzzer::loop(void) {
 					} else if (divider < 0) {
 						duration = _wholeNote/abs(divider);
 						// almost the same as *= 1.5 but hopefully faster
-						duration += _duration>>1;
+						duration += duration>>1;
 					}
 					_notePauseTime = duration;
 					// Uncomment one of the following lines to add the pause after the full note duration
