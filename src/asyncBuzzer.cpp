@@ -76,6 +76,7 @@ void asyncBuzzer::beep(unsigned int frequency, unsigned long beepTime, unsigned 
 	_startTime = millis();
 }
 
+#ifndef asyncBuzzer_NOMELODY
 void asyncBuzzer::playMelody(Note *melody, int tempo, int length) {
 	_melody = melody;
 	_melodyLength  = length;
@@ -86,6 +87,7 @@ void asyncBuzzer::playMelody(Note *melody, int tempo, int length) {
 	_buzzerState = BUZZER_MELODY;
 	_startTime = millis();
 }
+#endif
 
 int asyncBuzzer::getState(void) {
 	return _buzzerState;
@@ -121,6 +123,7 @@ void asyncBuzzer::loop(void) {
 
 			break;
 
+#ifndef asyncBuzzer_NOMELODY
 		case BUZZER_MELODY:
 			if(_melodyIndex < _melodyLength) {
 				if(!_notePauseTime) {
@@ -160,6 +163,7 @@ void asyncBuzzer::loop(void) {
 			}
 
 			break;
+#endif
 
 		default:
 			break;

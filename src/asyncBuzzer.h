@@ -132,21 +132,26 @@
 #define BUZZER_IDLE       0
 #define BUZZER_BEEP_DELAY 1
 #define BUZZER_BEEPING    2
-#define BUZZER_MELODY     3
+#ifndef asyncBuzzer_NOMELODY
+	#define BUZZER_MELODY     3
+#endif
 
 class asyncBuzzer
 {
 	public:
+#ifndef asyncBuzzer_NOMELODY
 		typedef struct{
 			unsigned int _frequency;
 			int _duration;
 		}Note;
 
+		void playMelody(Note *melody, int tempo, int length);
+#endif
+
 		asyncBuzzer(int pin);
 		void stop(void);
 		void beep(unsigned int frequency, unsigned long beepTime);
 		void beep(unsigned int frequency, unsigned long beepTime, unsigned long delay, unsigned int repetitions, bool initialDelay);
-		void playMelody(Note *melody, int tempo, int length);
 
 		int getState(void);
 		void loop(void);
@@ -162,11 +167,13 @@ class asyncBuzzer
 
 		unsigned long _startTime;
 
+#ifndef asyncBuzzer_NOMELODY
 		Note* _melody;
 		int _wholeNote;
 		int _melodyLength;
 		int _melodyIndex;
 		unsigned long _notePauseTime;
+#endif
 };
 
 #endif
