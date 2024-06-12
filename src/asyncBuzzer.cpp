@@ -75,10 +75,10 @@ void asyncBuzzer::beep(unsigned int frequency, unsigned long beepTime, unsigned 
 	_startTime = millis();
 }
 
-void asyncBuzzer::playMelody(int *melody, int *noteDurations, int length) {
+void asyncBuzzer::playMelody(Note *melody, int tempo, int length) {
 	_melody = melody;
-	_noteDurations = noteDurations;
 	_melodyLength  = length;
+	_wholeNote = (60000 * 4) / tempo;
 	_melodyIndex   = 0;
 	_notePauseTime = 0;
 
@@ -123,14 +123,28 @@ void asyncBuzzer::loop(void) {
 		case BUZZER_MELODY:
 			if(_melodyIndex < _melodyLength) {
 				if(!_notePauseTime) {
-					// to calculate the note duration, take one second divided by the note type.
-					//e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-					int duration = 1000 / _noteDurations[_melodyIndex];
-					tone(_buzzerPin, _melody[_melodyIndex], duration);
+					int divider = _melody[_melodyIndex]._duration;
+					int duration = _wholeNote>>2;
+					if (divider > 0) {
+						duration = _wholeNote/divider;
+					} else if (divider < 0) {
+						duration = _wholeNote/abs(divider);
+						// almost the same as *= 1.5 but hopefully faster
+						duration += _duration>>1;
+					}
+					_notePauseTime = duration;
+					// Uncomment one of the following lines to add the pause after the full note duration
+					//_notePauseTime += duration>>2; // almost the same as *= 1.25
+					//_notePauseTime += duration>>3; // almost the same as *= 1.125
+					//_notePauseTime += (duration*42598)>>15 // almost the same as *= 1.3 (from 1-1000: max delta=1, deviation percent=10%)
 
-					// to distinguish the notes, set a minimum time between them.
-					// the note's duration + 30% seems to work well:
-					_notePauseTime = duration * 1.30;
+					// Uncomment this line to have the pause be part of the note duration  
+					//duration -= duration>>3; 														// bad approx for *=0.9, more like 0.875 (from 1-1000: max delta=25, deviation percent=96.1%)
+        			//duration -= duration>>4; duration -= duration>>5; duration -= duration>>6;	// "better" approx for *=0.9 (from 1-1000: max delta=5, deviation percent=83%)
+        			duration = (duration * 58982)>>16;												// "best" approx for *=0.9 (from 1-1000: max delta=1, deviation percent=10%)
+
+					tone(_buzzerPin, _melody[_melodyIndex]._frequency, duration);
+
 					_startTime = millis();
 				}
 

@@ -147,18 +147,23 @@ class asyncBuzzer
 
 		unsigned long _startTime;
 
-		int *_melody;
-		int *_noteDurations;
+		Note* _melody;
+		int _wholeNote;
 		int _melodyLength;
 		int _melodyIndex;
 		unsigned long _notePauseTime;
 
 	public:
+		typedef struct{
+			unsigned int _frequency;
+			int _duration;
+		}Note;
+
 		asyncBuzzer(int pin);
 		void stop(void);
 		void beep(unsigned long beepTime);
 		void beep(unsigned long beepTime, unsigned long delay);
-		void playMelody(int *melody, int *noteDurations, int length);
+		void playMelody(int *melody, int tempo, int length);
 
 		int getState(void);
 		void loop(void);
