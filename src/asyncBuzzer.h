@@ -161,9 +161,9 @@ class asyncBuzzer
 
 		asyncBuzzer(int pin);
 		void stop(void);
-		void beep(unsigned long beepTime);
-		void beep(unsigned long beepTime, unsigned long delay);
-		void playMelody(int *melody, int tempo, int length);
+		void beep(unsigned int frequency, unsigned long beepTime);
+		void beep(unsigned int frequency, unsigned long beepTime, unsigned long delay, unsigned int repetitions, bool initialDelay);
+		void playMelody(Note *melody, int tempo, int length);
 
 		int getState(void);
 		void loop(void);
