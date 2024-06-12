@@ -1,3 +1,5 @@
+# WARNING: UNTESTED
+
 ## Buzzer Library for Arduino - ezBuzzer
 This library is designed for buzzer to beep or play melody without blocking other code.
 
