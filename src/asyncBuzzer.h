@@ -145,7 +145,7 @@ class asyncBuzzer
 #ifndef asyncBuzzer_NOMELODY
 		typedef struct{
 			unsigned int _frequency;
-			int _duration;
+			int8_t _duration;
 		}Note;
 
 		void playMelody(Note *melody, int tempo, int length);
