@@ -140,8 +140,10 @@ class asyncBuzzer
 		int _buzzerPin;
 		int _buzzerState;
 
+		unsigned int _beepFrequency;
 		unsigned long _delayTime;
 		unsigned long _beepTime;
+		unsigned int _beepReps;
 
 		unsigned long _startTime;
 

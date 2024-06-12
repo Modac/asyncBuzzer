@@ -57,14 +57,21 @@ void asyncBuzzer::stop(void){
 	_buzzerState = BUZZER_IDLE;
 }
 
-void asyncBuzzer::beep(unsigned long beepTime) {
-	beep(beepTime, 0);
+void asyncBuzzer::beep(unsigned int frequency, unsigned long beepTime) {
+	beep(frequency, beepTime, 0, 1, false);
 }
 
-void asyncBuzzer::beep(unsigned long beepTime, unsigned long delay) {
+void asyncBuzzer::beep(unsigned int frequency, unsigned long beepTime, unsigned long delay, unsigned int repetitions, bool initialDelay) {
+	_beepFrequency = frequency;
 	_delayTime = delay;
 	_beepTime  = beepTime;
-	_buzzerState = BUZZER_BEEP_DELAY;
+	_beepReps = repetitions;
+	if (initialDelay) {
+		_buzzerState = BUZZER_BEEP_DELAY;
+	} else {
+		_buzzerState = BUZZER_BEEPING;
+		tone(_buzzerPin, _beepFrequency);
+	}
 	_startTime = millis();
 }
 
@@ -94,15 +101,21 @@ void asyncBuzzer::loop(void) {
 				_buzzerState = BUZZER_BEEPING;
 				_startTime = millis();
 
-				digitalWrite(_buzzerPin, HIGH);
+				tone(_buzzerPin, _beepFrequency);
 			}
 
 			break;
 
 		case BUZZER_BEEPING:
 			if ((unsigned long)(millis() - _startTime) >= _beepTime) {
-				_buzzerState = BUZZER_IDLE;
-				digitalWrite(_buzzerPin, LOW);
+				noTone(_buzzerPin);
+				_beepReps--;
+				if (_beepReps > 0) {
+					_buzzerState = BUZZER_BEEP_DELAY;
+					_startTime = millis();
+				} else {
+					_buzzerState = BUZZER_IDLE;
+				}
 			}
 
 			break;
