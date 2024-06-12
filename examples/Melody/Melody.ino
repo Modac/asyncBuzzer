@@ -23,28 +23,19 @@ int lastStopButtonState  = HIGH; // the previous state from the input pin
 
 asyncBuzzer buzzer(BUZZER_PIN); // create asyncBuzzer object that attach to a pin;
 
-// notes in the melody:
-int melody[] = {
-  NOTE_E5, NOTE_E5, NOTE_E5,
-  NOTE_E5, NOTE_E5, NOTE_E5,
-  NOTE_E5, NOTE_G5, NOTE_C5, NOTE_D5,
-  NOTE_E5,
-  NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5,
-  NOTE_F5, NOTE_E5, NOTE_E5, NOTE_E5, NOTE_E5,
-  NOTE_E5, NOTE_D5, NOTE_D5, NOTE_E5,
-  NOTE_D5, NOTE_G5
-};
-
-// note durations: 4 = quarter note, 8 = eighth note, etc, also called tempo:
-int noteDurations[] = {
-  8, 8, 4,
-  8, 8, 4,
-  8, 8, 8, 8,
-  2,
-  8, 8, 8, 8,
-  8, 8, 8, 16, 16,
-  8, 8, 8, 8,
-  4, 4
+// notes of the moledy followed by the duration.
+// a 4 means a quarter note, 8 an eighteenth , 16 sixteenth, so on
+// !!negative numbers are used to represent dotted notes,
+// so -4 means a dotted quarter note, that is, a quarter plus an eighteenth!!
+asyncBuzzer::Note melody[] = {
+  {NOTE_E5,8}, {NOTE_E5,8}, {NOTE_E5,4},
+  {NOTE_E5,8}, {NOTE_E5,8}, {NOTE_E5,4},
+  {NOTE_E5,8}, {NOTE_G5,8}, {NOTE_C5,8}, {NOTE_D5,8},
+  {NOTE_E5,2},
+  {NOTE_F5,8}, {NOTE_F5,8}, {NOTE_F5,8}, {NOTE_F5,8},
+  {NOTE_F5,8}, {NOTE_E5,8}, {NOTE_E5,8}, {NOTE_E5,16}, {NOTE_E5,16},
+  {NOTE_E5,8}, {NOTE_D5,8}, {NOTE_D5,8}, {NOTE_E5,8},
+  {NOTE_D5,4}, {NOTE_G5,4}
 };
 
 void setup() {
@@ -62,8 +53,8 @@ void loop() {
   if (lastStartButtonState == HIGH && startButtonState == LOW) {
     Serial.println("The START button is pressed");
     if (buzzer.getState() == BUZZER_IDLE) {
-      int length = sizeof(noteDurations) / sizeof(int);
-      buzzer.playMelody(melody, noteDurations, length); // playing
+      int length = sizeof(melody) / sizeof(melody[0]);
+      buzzer.playMelody(melody, 240, length); // playing
     }
   }
 
