@@ -32,7 +32,7 @@ void loop() {
 
   if (lastButtonState == HIGH && currentState == LOW) {
     Serial.println("The button is pressed");
-    buzzer.beep(100); // generates a 100ms beep
+    buzzer.beep(2000, 100, 200, 2, false); // generates two 2kHz, 100ms beeps with 200ms pause inbetween and no initial delay
   }
 
   lastButtonState = currentState;
