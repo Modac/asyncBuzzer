@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ezBuzzer.h>
+#include <asyncBuzzer.h>
 
-ezBuzzer::ezBuzzer(int pin) {
+asyncBuzzer::asyncBuzzer(int pin) {
 	_buzzerPin   = pin;
 	_buzzerState = BUZZER_IDLE;
 
@@ -50,25 +50,25 @@ ezBuzzer::ezBuzzer(int pin) {
 }
 
 
-void ezBuzzer::stop(void){
+void asyncBuzzer::stop(void){
 	noTone(_buzzerPin);
 	digitalWrite(_buzzerPin, LOW);
 
 	_buzzerState = BUZZER_IDLE;
 }
 
-void ezBuzzer::beep(unsigned long beepTime) {
+void asyncBuzzer::beep(unsigned long beepTime) {
 	beep(beepTime, 0);
 }
 
-void ezBuzzer::beep(unsigned long beepTime, unsigned long delay) {
+void asyncBuzzer::beep(unsigned long beepTime, unsigned long delay) {
 	_delayTime = delay;
 	_beepTime  = beepTime;
 	_buzzerState = BUZZER_BEEP_DELAY;
 	_startTime = millis();
 }
 
-void ezBuzzer::playMelody(int *melody, int *noteDurations, int length) {
+void asyncBuzzer::playMelody(int *melody, int *noteDurations, int length) {
 	_melody = melody;
 	_noteDurations = noteDurations;
 	_melodyLength  = length;
@@ -79,11 +79,11 @@ void ezBuzzer::playMelody(int *melody, int *noteDurations, int length) {
 	_startTime = millis();
 }
 
-int ezBuzzer::getState(void) {
+int asyncBuzzer::getState(void) {
 	return _buzzerState;
 }
 
-void ezBuzzer::loop(void) {
+void asyncBuzzer::loop(void) {
 
 	switch(_buzzerState) {
 		case BUZZER_IDLE:

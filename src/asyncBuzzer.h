@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ezBuzzer_h
-#define ezBuzzer_h
+#ifndef asyncBuzzer_h
+#define asyncBuzzer_h
 
 #include <Arduino.h>
 
@@ -127,13 +127,14 @@
 #define NOTE_CS8 4435
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
+#define REST      0
 
 #define BUZZER_IDLE       0
 #define BUZZER_BEEP_DELAY 1
 #define BUZZER_BEEPING    2
 #define BUZZER_MELODY     3
 
-class ezBuzzer
+class asyncBuzzer
 {
 	private:
 		int _buzzerPin;
@@ -151,7 +152,7 @@ class ezBuzzer
 		unsigned long _notePauseTime;
 
 	public:
-		ezBuzzer(int pin);
+		asyncBuzzer(int pin);
 		void stop(void);
 		void beep(unsigned long beepTime);
 		void beep(unsigned long beepTime, unsigned long delay);

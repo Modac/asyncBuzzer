@@ -11,14 +11,14 @@
    + without using delay() function, this is a non-blocking example
 */
 
-#include <ezBuzzer.h> // ezBuzzer library
+#include <asyncBuzzer.h> // asyncBuzzer library
 
 const int BUTTON_PIN = 7;
 const int BUZZER_PIN = 3;
 
 int lastButtonState = HIGH; // the previous state from the input pin
 
-ezBuzzer buzzer(BUZZER_PIN); // create ezBuzzer object that attach to a pin;
+asyncBuzzer buzzer(BUZZER_PIN); // create asyncBuzzer object that attach to a pin;
 
 void setup() {
   Serial.begin(9600);

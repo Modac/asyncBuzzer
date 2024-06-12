@@ -12,7 +12,7 @@
    + without using delay() function, this is a non-blocking example
 */
 
-#include <ezBuzzer.h> // ezBuzzer library
+#include <asyncBuzzer.h> // asyncBuzzer library
 
 const int START_BUTTON_PIN = 7;
 const int STOP_BUTTON_PIN  = 8;
@@ -21,7 +21,7 @@ const int BUZZER_PIN = 3;
 int lastStartButtonState = HIGH; // the previous state from the input pin
 int lastStopButtonState  = HIGH; // the previous state from the input pin
 
-ezBuzzer buzzer(BUZZER_PIN); // create ezBuzzer object that attach to a pin;
+asyncBuzzer buzzer(BUZZER_PIN); // create asyncBuzzer object that attach to a pin;
 
 // notes in the melody:
 int melody[] = {
