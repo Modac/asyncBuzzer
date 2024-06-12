@@ -54,7 +54,6 @@ asyncBuzzer::asyncBuzzer(int pin) {
 
 void asyncBuzzer::stop(void){
 	noTone(_buzzerPin);
-	digitalWrite(_buzzerPin, LOW);
 
 	_buzzerState = BUZZER_IDLE;
 }
