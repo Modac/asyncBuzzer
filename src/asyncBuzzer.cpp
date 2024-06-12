@@ -42,11 +42,13 @@ asyncBuzzer::asyncBuzzer(int pin) {
 
 	_startTime = 0;
 
+#ifndef asyncBuzzer_NOMELODY
 	_melody = 0;
 	_wholeNote = 0;
 	_melodyLength  = 0;
 	_melodyIndex   = 0;
 	_notePauseTime = 0;
+#endif
 
 	pinMode(_buzzerPin, OUTPUT);
 }

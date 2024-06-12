@@ -34,6 +34,9 @@
 
 #include <Arduino.h>
 
+// Uncomment to remove the melody feature and save a few hundred bytes of flash (554 bytes on Attiny1624) and a few bytes of ram (12 bytes on Attiny1624)
+//#define asyncBuzzer_NOMELODY
+
 /*************************************************
  * Public Constants
  *************************************************/
@@ -133,7 +136,7 @@
 #define BUZZER_BEEP_DELAY 1
 #define BUZZER_BEEPING    2
 #ifndef asyncBuzzer_NOMELODY
-	#define BUZZER_MELODY     3
+#define BUZZER_MELODY     3
 #endif
 
 class asyncBuzzer
@@ -147,7 +150,6 @@ class asyncBuzzer
 
 		void playMelody(Note *melody, int tempo, int length);
 #endif
-
 		asyncBuzzer(int pin);
 		void stop(void);
 		void beep(unsigned int frequency, unsigned long beepTime);
